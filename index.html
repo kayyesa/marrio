@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>peach's patiesserie</title>
+    <link rel="shortcut icon" href="logo.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/tailwind.css">
+    <link rel="stylesheet" href="css/tooplate-antique-cafe.css">
+
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif !important;
+            font-weight: 800;
+        }
+        .cat-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+            flex-shrink: 0;
+        }
+
+        /* MODAL */
+        .cat-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .cat-modal-overlay.active {
+            display: flex;
+        }
+        .cat-modal-box {
+            background: #3b2a1a;
+            border-radius: 1rem;
+            max-width: 750px;
+            width: 90%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        @media (min-width: 640px) {
+            .cat-modal-box {
+                flex-direction: row;
+            }
+        }
+        .cat-modal-img {
+            width: 100%;
+            max-width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            flex-shrink: 0;
+            margin: 0 auto;
+        }
+        @media (min-width: 640px) {
+            .cat-modal-img {
+                width: 220px;
+                margin: 0;
+            }
+        }
+        .cat-modal-info {
+            flex: 1;
+            color: white;
+        }
+        .cat-modal-info h3 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            color: #f0c040;
+        }
+        .cat-modal-info .cat-detail {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: #d4c5a9;
+        }
+        .cat-modal-info .cat-bio {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #e8e0d0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1rem;
+        }
+        .cat-modal-close {
+            position: absolute;
+            top: 0.75rem;
+            right: 1rem;
+            font-size: 1.75rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+        .cat-modal-close:hover {
+            color: #f0c040;
+        }
+        .btn-know-more {
+            margin-top: 0.75rem;
+            background: transparent;
+            border: 1.5px solid #f0c040;
+            color: #f0c040;
+            padding: 0.35rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+        .btn-know-more:hover {
+            background: #f0c040;
+            color: #3b2a1a;
+        }
+    </style>
+</head>
+<body>    
+    <!-- Intro -->
+    <div id="intro" class="parallax-window" data-parallax="scroll" data-image-src="bg1.gif">
+        <nav id="tm-nav" class="fixed w-full">
+            <div class="tm-container mx-auto px-2 md:py-6 text-right">
+                <button class="md:hidden py-2 px-2" id="menu-toggle"><i class="fas fa-2x fa-bars tm-text-gold"></i></button>
+                <ul class="mb-3 md:mb-0 text-2xl font-normal flex justify-end flex-col md:flex-row">
+                    <li class="inline-block mb-4 mx-4"><a href="#intro" class="tm-text-gold py-1 md:py-3 px-4">Home</a></li>
+                    <li class="inline-block mb-4 mx-4"><a href="#menu" class="tm-text-gold py-1 md:py-3 px-4">Cats</a></li>
+                    <li class="inline-block mb-4 mx-4"><a href="#about" class="tm-text-gold py-1 md:py-3 px-4">About</a></li>
+                    <li class="inline-block mb-4 mx-4"><a href="#contact" class="tm-text-gold py-1 md:py-3 px-4">Contact</a></li>
+                </ul>
+            </div>            
+        </nav>
+        <div class="container mx-auto px-2 tm-intro-width">
+            <div class="sm:pb-60 sm:pt-48 py-20">
+                <div class="bg-black bg-opacity-70 p-12 mb-5 text-center">
+                    <h1 class="text-white text-5xl tm-logo-font mb-5">peach's patiesserie</h1>
+                    <p class="tm-text-gold tm-text-2xl">every item is made fresh with premium ingredient, pick your favourite treat! </p>
+                </div>    
+                <div class="bg-black bg-opacity-70 p-10 mb-5">
+                    <p class="text-white leading-8 text-sm font-light">
+                        This is a peach's patiesserie by kayyesa,
+                        a student of MAN 1 Yogyakarta. peach's patiesserie is a small artisan bakery born in the hearth of Yogyakarta. we believe every dessert should feel like a warm hug indulgent, beautiful, and made from scratch with the finest ingredients.
+                        If you're interested in our bakery, 
+                        don't hesitate to <a rel="nofollow" href="https://wa.me/+6282138736970" target="_parent">send us a message</a> 
+                        so you can take it store!</p>
+                </div>
+                <div class="text-center">
+                    <div class="inline-block">
+                        <a href="#menu" class="flex justify-center items-center bg-black bg-opacity-70 py-6 px-8 rounded-lg font-semibold tm-text-2xl tm-text-gold hover:text-gray-200 transition">
+                            <span>Look at our patiesserie</span>                        
+                        </a>
+                    </div>                    
+                </div>                
+            </div>
+        </div>        
+    </div>
+
+    <!-- Our Various Cats 1 -->
+    <div id="menu" class="parallax-window" data-parallax="scroll" data-image-src="img/antique-cafe-bg-02.jpg">
+        <div class="container mx-auto tm-container py-24 sm:py-48">
+            <div class="text-center mb-16">
+                <h2 class="bg-white tm-text-brown py-6 px-12 text-4xl font-medium inline-block rounded-md">our cookies n macaron</h2>
+            </div>            
+            <div class="flex flex-col lg:flex-row justify-around items-center">
+                <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
+
+                    <div class="flex items-start mb-6 tm-menu-item">
+                        <img src="ecookies1.jpg" class="cc-img" alt="classic cookies">
+                        <div class="ml-3 sm:ml-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">classic cookies</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">18k</div>
+                            <button class="btn-know-more" onclick="openModal('classic cookies','ecookies1.jpg','18k','Mia is the loud tiny diva of the shelter. She meows like she’s arguing with the world 24/7 and always wants attention immediately. If you ignore her for even five seconds, she will stare dramatically until you notice her again.')">Get to know more</button>
+                        </div>                    
+                    </div>
+
+                    <div class="flex items-start mb-6 tm-menu-item">
+                        <img src="cookies2.jpg" class="rvc-img" alt="red velvet cookies">
+                        <div class="ml-3 sm:ml-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">red velvet cookies</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">21k</div>
+                            <button class="btn-know-more" onclick="openModal('red velvet cookies','cookies2.gif','21k','Blobli and Bloblo are the chaotic duo nobody can separate. One of them always starts trouble, and the other immediately joins without asking questions. They love chasing each other around, making weird noises, and acting like tiny fluffy comedians.')">Get to know more</button>
+                        </div>                    
+                    </div>
+
+                    <div class="flex items-start mb-6 tm-menu-item">
+                        <img src="cookies3.jpg" class="mc-img" alt="nmatcha cookies">
+                        <div class="ml-3 sm:ml-6">
+                            <h3 class="text-xl sm:text-2xl tm-text-yellow mb-1">matcha cookies</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">21k</div>
+                            <button class="btn-know-more" onclick="openModal('matcha cookies','cookies3.gif','21k','Pushy is the tiny chaos machine of the shelter. He looks cute for two seconds before suddenly screaming at invisible enemies and running around like he drank five cups of coffee. He loves attacking random objects and starting drama for absolutely no reason.')">Get to know more</button>
+                        </div>                    
+                    </div>
+
+
+                    <div class="flex items-start mb-6 tm-menu-item">
+                        <img src="cookies4.jpg" class="nc-img" alt="nutella cookies">
+                        <div class="ml-3 sm:ml-6">
+                            <h3 class="text-xl sm:text-2xl tm-text-yellow mb-1">nutella cookies</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">21k</div>
+                            <button class="btn-know-more" onclick="openModal('nutella cookies','cookies4.jpg','21k','Pushy is the tiny chaos machine of the shelter. He looks cute for two seconds before suddenly screaming at invisible enemies and running around like he drank five cups of coffee. He loves attacking random objects and starting drama for absolutely no reason.')">Get to know more</button>
+                        </div>                    
+                    </div>
+
+                </div>
+                <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
+
+                    <div class="flex items-start justify-end mb-6 tm-menu-item-2">
+                        <div class="text-right mr-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">double choco cookies</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">21k</div>
+                            <button class="btn-know-more" onclick="openModal('double choco cookies','cookies5.gif','21k','Mimmo acts like a hardworking employee who is tired of life. He walks around calmly like he’s finishing a long shift at work and gives everyone a serious stare. But once snacks appear, his “professional attitude” disappears immediately.')">Get to know more</button>
+                        </div>
+                        <img src="cookies5.jpg" class="dcc-img" alt="double choco cookies">                   
+                    </div>
+
+                    <div class="flex items-start justify-end mb-6 tm-menu-item-2">
+                        <div class="text-right mr-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">strawberry macaron</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">22k</div>
+						    <button class="btn-know-more" onclick="openModal('vanilla macaron','macaron2.jpg','22k','Dongdong always looks confused for absolutely no reason. His face makes it seem like he just woke up from the weirdest dream ever. He enjoys staring into space, sitting in random places, and acting clueless even when he caused the chaos himself.')">Get to know more</button>
+                        </div>   
+                        <img src="macaron1.jpg" class="sm-img" alt="strawberry macaron">                    
+                    </div>
+
+                    <div class="flex items-start justify-end mb-6 tm-menu-item-2">
+                        <div class="text-right mr-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">vanilla macaron</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">22k</div>
+                            <button class="btn-know-more" onclick="openModal('vanilla macaron','macaron2.jpg','22k','Dongdong always looks confused for absolutely no reason. His face makes it seem like he just woke up from the weirdest dream ever. He enjoys staring into space, sitting in random places, and acting clueless even when he caused the chaos himself.')">Get to know more</button>
+                        </div>   
+                        <img src="macaron2.jpg" class="vm-img" alt="vanilla macaron">                 
+                    </div>
+
+                    <div class="flex items-start justify-end mb-6 tm-menu-item-2">                    
+                        <div class="text-right mr-6">
+                            <h3 class="text-xl sm:text-2xl tm-text-yellow mb-1">matcha macaron</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">22k</div>
+                            <button class="btn-know-more" onclick="openModal('matcha macaron','macaron3.jpg','22k','Jeje is the goofy gentleman of the group. His face always looks like he just heard the funniest joke ever. He enjoys getting close to people, staring awkwardly at cameras, and acting silly without even trying. Everyone somehow ends up laughing because of him.')">Get to know more</button>
+                        </div> 
+                        <img src="macaron3.jpg" class="mm-img" alt="matcha macaron">                   
+                    </div>
+
+                </div>
+            </div>
+        </div>        
+    </div>
+
+    <!-- Our Various Cats 2 -->
+    <div class="parallax-window" data-parallax="scroll" data-image-src="img/antique-cafe-bg-02.jpg">
+        <div class="container mx-auto tm-container py-24 sm:py-48">
+            <div class="text-center mb-16">
+                <h2 class="bg-white tm-text-brown py-6 px-12 text-4xl font-medium inline-block rounded-md">our cheesecake n tiramisu</h2>
+            </div>            
+            <div class="flex flex-col lg:flex-row justify-around items-center">
+                <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
+
+                    <div class="flex items-start mb-6 tm-menu-item">
+                        <img src="cheesecake1.jpg" class="vc-img" alt="vanilla cheesecake">
+                        <div class="ml-3 sm:ml-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">vanilla cheesecake</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">38k</div>
+                            <button class="btn-know-more" onclick="openModal('vanilla cheesecake','cheesecake1.jpg','38k','Beible is the professional side-eye master of the shelter. His face always looks like he’s silently roasting everyone around him. He enjoys sitting in corners, watching people with his “judging stare,” and acting like he’s too cool to care. But secretly, he likes attention and soft pets when nobody notices.')">Get to know more</button>
+                        </div>                    
+                    </div>
+
+                    <div class="flex items-start mb-6 tm-menu-item">
+                        <img src="cheesecake2.jpg" class="oc-img" alt="oreocheesecake">
+                        <div class="ml-3 sm:ml-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">oreocheesecake</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">40k</div>
+                            <button class="btn-know-more" onclick="openModal('oreocheesecake','cheesecake2.jpg','40k','5 Months','Dadduc is the chaotic little sunshine. She gets excited over literally everything — food, toys, shadows, or even moving feet. She loves zooming around the room at midnight and then suddenly falling asleep in the weirdest positions.')">Get to know more</button>
+                        </div>                    
+                    </div>
+
+                    <div class="flex items-start mb-6 tm-menu-item">
+                        <img src="cheesecake3.jpg" class="lbc-img" alt="lotus biscoff cheesecake">
+                        <div class="ml-3 sm:ml-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">lotus biscoff cheesecake</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">43k</div>
+                            <button class="btn-know-more" onclick="openModal('lotus biscoff cheesecake','cheesecake3.jpg','43k','Seyyo is the curious baby of the group. He always wants to know what everyone is doing and will follow you everywhere like a tiny bodyguard. He enjoys stealing small objects, staring out the window, and demanding attention at the most random times.')">Get to know more</button>
+                        </div>                    
+                    </div>
+
+                    <div class="flex items-start mb-6 tm-menu-item">
+                        <img src="cheesecake4.jpg" class="bc-img" alt="blueberry cheesecake">
+                        <div class="ml-3 sm:ml-6">
+                            <h3 class="text-xl sm:text-2xl tm-text-yellow mb-1">blueberry cheesecake</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">40k</div>
+                            <button class="btn-know-more" onclick="openModal('blueberry cheesecake','cheesecake4.jpg','43k','Chikky is the snack addict of the shelter. He acts innocent, but the moment he hears food packaging, he suddenly appears out of nowhere. He loves staring at people while they eat like he’s being personally betrayed for not getting a bite. His blank face somehow makes everything funnier.')">Get to know more</button>
+                        </div>                    
+                    </div>
+
+                </div>
+                <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
+
+                    <div class="flex items-start justify-end mb-6 tm-menu-item-2">
+                        <div class="text-right mr-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">classic tiramisu</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">35k</div>
+                            <button class="btn-know-more" onclick="openModal('classic tiramisu','tiramisu1.gif','35k','Heyho is loud, dramatic, and full of personality. He talks a lot, especially when he wants snacks or cuddles. Even though he acts super confident, he actually gets clingy when nobody is around. His meows sound like tiny complaints 24/7.')">Get to know more</button>
+                        </div>tiramisu1.gif" class="ct-img" alt="classic tiramisu">                   
+                    </div>
+
+                    <div class="flex items-start justify-end mb-6 tm-menu-item-2">
+                        <div class="text-right mr-6">choco tiramisu</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">38k</div>
+                            <button class="btn-know-more" onclick="openModal('choco tiramisu','tiramisu2.gif','38k','Billy is the funniest cat in the shelter. He makes the weirdest faces for no reason and somehow turns everything into comedy. He loves snacks more than anything and will magically appear whenever he hears food packaging.')">Get to know more</button>
+                        </div>
+                        <img src="tiramisu2.gif" class="cot-img" alt="choco tiramisu">                    
+                    </div>
+
+                    <div class="flex items-start justify-end mb-6 tm-menu-item-2">
+                        <div class="text-right mr-6">
+                            <h3 class="text-xl sm:text-2xl mb-2 sm:mb-3 tm-text-yellow">matcha tiramisu</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">40k</div>
+                            <button class="btn-know-more" onclick="openModal('matcha tiramisu','tiramisu3.gif','40k','Kicchi is the tiny energetic princess. She may be small, but she runs faster than everyone and loves climbing onto beds, chairs, and people. She gets playful very easily and enjoys attacking shoelaces like they are her biggest enemy.')">Get to know more</button>
+                        </div>   
+                        <img src="tiramisu3.gif" class="mc-img" alt="matcha tiramisu">                 
+                    </div>
+
+                    <div class="flex items-start justify-end mb-6 tm-menu-item-2">                    
+                        <div class="text-right mr-6">
+                            <h3 class="text-xl sm:text-2xl tm-text-yellow mb-1">lotus biscoff tiramisu</h3>
+                            <div class="text-white text-lg sm:text-xl font-light mb-1">42k</div>
+                            <div class="text-white text-lg sm:text-xl font-light">Age : 9 Months</div>
+                            <button class="btn-know-more" onclick="openModal('lotus biscoff tiramisu','tiramisu4.gif','42k','Marky acts like the rich cool guy of the group. He sits confidently like he owns a luxury car and judges everyone with his classy face. Even though he looks elegant and calm, he secretly enjoys causing tiny chaos and stealing the best sleeping spots.')">Get to know more</button>
+                        </div> 
+                        <img src="tiramisu4.gif" class="lbt-img" alt="lotus biscoff tiramisu">                   
+                    </div>
+
+                </div>
+            </div>
+        </div>        
+    </div>
+
+    <!-- About -->
+    <div id="about" class="parallax-window" data-parallax="scroll" data-image-src="bg4.gif">
+        <div class="container mx-auto tm-container py-24 sm:py-48">
+            <div class="tm-item-container sm:ml-auto sm:mr-12 mx-auto sm:px-0 px-4">
+                <div class="bg-white bg-opacity-80 p-12 pb-14 rounded-xl mb-5">
+                    <h2 class="mb-6 tm-text-green text-4xl font-medium">about our patiesserie</h2>
+                    <p class="mb-6 text-base leading-8">
+                        Welcome to our bakery 
+A cozy little place filled with sweet treats, fresh pastries, and warm moments to enjoy with your favorite people.
+Everything here is baked fresh every day with love and care, from soft breads and cookies to delicious cakes and drinks. We hope every visit brings you comfort, happiness, and something tasty to brighten your day.
+Thank you for stopping by and supporting our bakery. We’re always happy to serve you 
+                    </p>
+                    <p class="text-base leading-8">
+                        If you wish to <a rel="nofollow" href="https://www.instagram.com/kayesaakha/" target="_parent">support us</a>, please make a book place. That would be
+                        very helpful. Another way is to tell your friends about our patiesserie. Thank you.</p>
+                </div>
+                <a href="#contact" class="inline-block tm-bg-green transition text-white text-xl pt-3 pb-4 px-8 rounded-md">
+                    <i class="far fa-comments mr-4"></i>
+                    Contact
+                </a>
+            </div>           
+        </div>        
+    </div>
+
+    <!-- Contact -->
+    <div id="contact" class="parallax-window relative" data-parallax="scroll" data-image-src="bg5.gif"> 
+        <div class="container mx-auto tm-container pt-24 pb-48 sm:py-48">
+            <div class="flex flex-col lg:flex-row justify-around items-center lg:items-stretch">
+                <div class="flex-1 rounded-xl px-10 py-12 m-5 bg-white bg-opacity-80 tm-item-container">
+                    <h2 class="text-3xl mb-6 tm-text-green">Contact Us</h2>
+                    <p class="mb-6 text-lg leading-8">
+                        Jl. C. Simanjuntak 60 Yogyakarta   
+                    </p>
+                    <p class="mb-10 text-lg">
+                        <span class="block mb-2">Tel: <a href="tel:082138736970" class="hover:text-yellow-600 transition">082138736970</a></span>
+                        <span class="block">Email: <a href="mailto:mariooshortcake@gmail.com" class="hover:text-yellow-600 transition">mariooshortcake@gmail.com</a></span>                        
+                    </p>
+                    <div class="text-center">
+                        <a href="https://goo.gl/maps/dXViG2rdqh7XozfL6" class="inline-block text-white text-2xl pl-10 pr-12 py-6 rounded-lg transition tm-bg-green">
+                            <i class="fas fa-map-marked-alt mr-8"></i>
+                            Open Maps
+                        </a>
+                    </div>                    
+                </div>
+                <div class="flex-1 rounded-xl p-12 pb-14 m-5 bg-black bg-opacity-50 tm-item-container">
+                    <form action="" method="POST" class="text-lg">
+                        <input type="text" name="name" class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 mb-4 tm-border-gold" placeholder="Name" required="" />
+                        <input type="email" name="email" class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 mb-4 tm-border-gold" placeholder="Email" required="" />
+                        <textarea rows="6" name="message" class="input w-full bg-black border-b bg-opacity-0 text-white px-0 py-4 mb-4 tm-border-gold" placeholder="Message..." required=""></textarea>
+                        <div class="text-right">
+                            <button type="submit" class="text-white hover:text-yellow-500 transition">Send it</button>
+                        </div>                        
+                    </form>
+                </div>
+            </div>
+            <footer class="absolute bottom-0 left-0 w-full">
+                <div class="text-white container mx-auto tm-container p-8 text-lg flex flex-col md:flex-row justify-between">
+                    <span>Copyright 2026 patiesserie.</span>
+                    <span class="mt-5 md:mt-0">Design: <a href="https://www.instagram.com/kayesaakha/" target="_parent">kayesaakha</a></span>
+                </div>                
+            </footer>
+        </div>        
+    </div>
+
+    <!-- MODAL POPUP -->
+    <div class="cat-modal-overlay" id="catModal">
+        <div class="cat-modal-box">
+            <button class="cat-modal-close" onclick="closeModal()">&#10005;</button>
+            <img id="modalImg" src="" class="cat-modal-img" alt="">
+            <div class="cat-modal-info">
+                <h3 id="modalName"></h3>
+                <p class="cat-detail" id="modalGender"></p>
+                <p class="cat-detail" id="modalAge"></p>
+                <div class="cat-bio" id="modalBio"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/parallax.min.js"></script>
+    <script src="js/jquery.singlePageNav.min.js"></script>
+    <script>
+        // MODAL FUNCTIONS
+        function openModal(name, img, gender, age, bio) {
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalImg').src = img;
+            document.getElementById('modalImg').alt = name;
+            document.getElementById('modalGender').textContent = 'Gender : ' + gender;
+            document.getElementById('modalAge').textContent = 'Age : ' + age;
+            document.getElementById('modalBio').textContent = bio;
+            document.getElementById('catModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('catModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Klik di luar modal = tutup
+        document.getElementById('catModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Navigasi & menu
+        function checkAndShowHideMenu() {
+            if(window.innerWidth < 768) {
+                $('#tm-nav ul').addClass('hidden');                
+            } else {
+                $('#tm-nav ul').removeClass('hidden');
+            }
+        }
+
+        $(function(){
+            var tmNav = $('#tm-nav');
+            tmNav.singlePageNav();
+
+            checkAndShowHideMenu();
+            window.addEventListener('resize', checkAndShowHideMenu);
+
+            $('#menu-toggle').click(function(){
+                $('#tm-nav ul').toggleClass('hidden');
+            });
+
+            $('#tm-nav ul li').click(function(){
+                if(window.innerWidth < 768) {
+                    $('#tm-nav ul').addClass('hidden');
+                }                
+            });
+
+            $(document).scroll(function() {
+                var distanceFromTop = $(document).scrollTop();
+                if(distanceFromTop > 100) {
+                    tmNav.addClass('scroll');
+                } else {
+                    tmNav.removeClass('scroll');
+                }
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
